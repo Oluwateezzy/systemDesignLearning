@@ -46,8 +46,8 @@ It demonstrates how to add tracing, metrics, and structured logs to a Node.js mi
 ## Installation
 
 ```bash
-git clone <repo-url>
-cd url-shortener-observability
+git clone https://github.com/Oluwateezzy/systemDesignLearning
+cd systemDesignLearning/url-shortener-observability
 npm install
 ```
 
