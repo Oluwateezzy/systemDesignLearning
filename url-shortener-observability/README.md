@@ -10,6 +10,11 @@ It demonstrates how to add tracing, metrics, and structured logs to a Node.js mi
 
 ---
 
+## Medium Article
+Link: 
+
+---
+
 ## Project Structure
 
 ```
