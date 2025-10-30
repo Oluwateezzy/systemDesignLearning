@@ -11,7 +11,7 @@ It demonstrates how to add tracing, metrics, and structured logs to a Node.js mi
 ---
 
 ## Medium Article
-Link: 
+Link: https://oluwateezzy03.medium.com/system-design-learning-journey-observability-url-shortener-observability-bdc9b1e4b9b1
 
 ---
 
