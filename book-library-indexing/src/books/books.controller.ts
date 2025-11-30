@@ -29,4 +29,9 @@ export class BooksController {
   searchByTitlePartial(@Query('keyword') keyword: string) {
     return this.booksService.searchByTitlePartial(keyword);
   }
+
+  @Get('benchmark')
+  benchmark() {
+    return this.booksService.benchmarkQueries();
+  }
 }

@@ -71,4 +71,58 @@ export class BooksService extends PrismaClient implements OnModuleInit {
       },
     });
   }
+
+  async benchmarkQueries() {
+    const results = {};
+    const log = (name: string, time: number) => {
+      results[name] = `${time}ms`;
+      console.log(`${name}: ${time}ms`);
+    };
+
+    // 1. Primary Key Lookup
+    let start = Date.now();
+    await this.book.findUnique({ where: { id: 25000 } });
+    log('Primary Key Lookup', Date.now() - start);
+
+    // 2. Unique Index Lookup
+    start = Date.now();
+    await this.book.findUnique({ where: { isbn: 'isbn-25000' } });
+    log('Unique Index Lookup', Date.now() - start);
+
+    // 3. Non-Indexed Column (Title) - Full Table Scan
+    start = Date.now();
+    await this.book.findMany({ where: { title: 'Book Title 25000' } });
+    log('Non-Indexed Column (Title)', Date.now() - start);
+
+    // 4. Indexed Column (Author)
+    start = Date.now();
+    await this.book.findMany({ where: { author: 'Author 42' } });
+    log('Indexed Column (Author)', Date.now() - start);
+
+    // 5. Range Query with Index (Year)
+    start = Date.now();
+    await this.book.findMany({
+      where: { year: { gte: 2000, lte: 2010 } }
+    });
+    log('Range Query (Year)', Date.now() - start);
+
+    // 6. Composite Index (Author + Year)
+    start = Date.now();
+    await this.book.findMany({
+      where: {
+        author: 'Author 42',
+        year: { gte: 2000, lte: 2010 }
+      }
+    });
+    log('Composite Index (Author + Year)', Date.now() - start);
+
+    // 7. LIKE Wildcard (Partial Match) - Full Table Scan
+    start = Date.now();
+    await this.book.findMany({
+      where: { title: { contains: 'Title 250' } }
+    });
+    log('LIKE Wildcard Search', Date.now() - start);
+
+    return results;
+  }
 }
