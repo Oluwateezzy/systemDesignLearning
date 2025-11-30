@@ -11,7 +11,6 @@ export class BooksService extends PrismaClient implements OnModuleInit {
 }
   async onModuleInit() {
     await this.$connect();
-    // Let's seed the database with lots of dummy data to make performance differences obvious.
     await this.seedDatabase();
   }
 
