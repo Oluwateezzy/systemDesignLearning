@@ -10,13 +10,35 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// model Book {
+//   id      Int     @id @default(autoincrement())
+//   title   String
+//   author  String
+//   isbn    String  @unique // This implicitly creates a unique index
+//   year    Int
+//   @@map("books")
+// }
+
 model Book {
   id      Int     @id @default(autoincrement())
   title   String
   author  String
-  isbn    String  @unique // This implicitly creates a unique index
+  isbn    String  @unique
   year    Int
 
-  
+  // === ADD THESE INDEXES === //
+
+  // A non-unique B-Tree index on the 'author' column.
+  // Perfect for exact-match lookups.
+  @@index([author], name: "books_author_idx")
+
+  // A non-unique B-Tree index on the 'year' column.
+  // Perfect for range queries (year > 2000, year BETWEEN ...).
+  @@index([year], name: "books_year_idx")
+
+  // A composite B-Tree index on 'author' and 'year'.
+  // Perfect for queries filtering by both author and year.
+  @@index([author, year], name: "books_author_year_idx")
+
   @@map("books")
 }

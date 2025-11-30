@@ -3,6 +3,12 @@ import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class BooksService extends PrismaClient implements OnModuleInit {
+
+  constructor() {
+  super({
+    log: ['query'], // This will log all SQL queries to the console
+  });
+}
   async onModuleInit() {
     await this.$connect();
     // Let's seed the database with lots of dummy data to make performance differences obvious.
